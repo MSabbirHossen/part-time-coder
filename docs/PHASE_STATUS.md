@@ -40,10 +40,10 @@
 | `IMP-00-02` | PTC-GOV-001, PTC-GOV-002, PTC-GOV-004, PTC-ORG-001–006, PTC-IAM-001–010, PTC-SOC-004–005, PTC-OPS-001–004, PTC-NFR-001–002, PTC-NFR-007, PTC-NFR-011–012, PTC-NFR-015 | Architecture ADR confirmation | `verified` | [docs/ADR/](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/ADR/) (ADR-0001 through ADR-0006 approved) | `058883d`, `dd237c4` |
 | `IMP-00-03` | PTC-GOV-004, PTC-NFR-011 | pnpm workspace initialization | `verified` | Clean install, strict typecheck, lint, and production builds (`apps/web`, `apps/worker`) | `614e136` |
 | `IMP-00-04` | PTC-OPS-002, PTC-OPS-003 | Environment contract & secrets | `verified` | Typed Zod schemas (`packages/config/src/env.ts`), .env.example, 23 unit tests passing | `25cd4c0`, `f4b3336` |
-| `IMP-00-05` | PTC-OPS-001, PTC-NFR-011 | GitHub Actions CI workflows | `verified` | [.github/workflows/ci.yml](file:///f:/Code%20Practice/AI-Projects/part-time-coder/.github/workflows/ci.yml) (Local validation: PASS; REMOTE_CI_STATUS: NOT_VERIFIED) | `a584eb0` |
+| `IMP-00-05` | PTC-OPS-001, PTC-NFR-011 | GitHub Actions CI workflows | `verified` | [Run 38652937037](https://github.com/MSabbirHossen/part-time-coder/actions/runs/38652937037) (5/5 jobs passed: Quality, Unit, DB Integration 12/12, Build, Security; REMOTE_CI_STATUS: VERIFIED) | `59c4119` |
 | `IMP-00-06` | PTC-DATA-001, PTC-DATA-002 | Disposable DB test fixtures | `verified` | [packages/database/src/database.integration.test.ts](file:///f:/Code%20Practice/AI-Projects/part-time-coder/packages/database/src/database.integration.test.ts) (12 integration tests: replica set, transactions, compound unique indexes, isolation) | `357ed4d` |
-| `IMP-00-07` | PTC-OPS-001, PTC-NFR-015 | Commercial hosting assessment | `verified` | [docs/HOSTING_FEASIBILITY.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/HOSTING_FEASIBILITY.md) (10 dimensions, decision matrix, Render preferred, Hetzner fallback) | `fcdc6fa` |
-| `IMP-00-08` | PTC-GOV-004, PTC-GOV-005 | Execution registry & test matrix | `in_progress` | [docs/PHASE_STATUS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PHASE_STATUS.md), [docs/TEST_MATRIX.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/TEST_MATRIX.md) | pending |
+| `IMP-00-07` | PTC-OPS-001, PTC-NFR-015 | Commercial hosting assessment | `verified` | [docs/HOSTING_FEASIBILITY.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/HOSTING_FEASIBILITY.md) (10 dimensions, verified pricing, Render preferred, Hetzner fallback) | `bbfe357` |
+| `IMP-00-08` | PTC-GOV-004, PTC-GOV-005 | Execution registry & test matrix | `verified` | [docs/PHASE_STATUS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PHASE_STATUS.md), [docs/TEST_MATRIX.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/TEST_MATRIX.md), [docs/OPERATIONS_DECISIONS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/OPERATIONS_DECISIONS.md) | pending commit |
 | `IMP-00-09` | PTC-INT-001–005 | Identity & provider register | `not_started` | — | — |
 | `IMP-00-10` | PTC-SEC-001–011 | Security baseline & threat model | `not_started` | — | — |
 
@@ -94,6 +94,7 @@ tickets:
   - IMP-00-05
   - IMP-00-06
   - IMP-00-07
+  - IMP-00-08
 changes:
   commits:
     - f9e9680 (IMP-00-01)
@@ -111,6 +112,8 @@ changes:
     - 88a35bb (docs: record IMP-00-06 SHA)
     - 626eae7 (ci: update secret scanner & DB integration tests)
     - fcdc6fa (IMP-00-07 commercial hosting assessment)
+    - bbfe357 (docs: reconcile hosting assessment with verified provider limits)
+    - 59c4119 (ci: configure Gitleaks allowlist & config path; REMOTE_CI_STATUS: VERIFIED)
   pull_requests: []
   migrations: []
 checks:
@@ -121,12 +124,12 @@ checks:
   build: {status: pass, evidence: "Next.js 16.4.1 Turbopack and @ptc/worker compile clean"}
   e2e: {status: not_run, evidence: null}
   accessibility: {status: not_run, evidence: null}
-  security: {status: pass, evidence: "Gitleaks v3 (SHA e0c47f4) clean; pnpm audit 0 high/critical CVEs; secret redaction and .gitignore enforced"}
+  security: {status: pass, evidence: "Gitleaks v3 (SHA e0c47f4) clean on remote and local; pnpm audit 0 high/critical CVEs; secret redaction enforced"}
 manual_prerequisites:
   - "ADR-0001 through ADR-0006 approved by Owner on 14 October 2026"
   - "ADR-0007 approved by Owner on 15 October 2026"
 known_gaps:
-  - "REMOTE_CI_STATUS: NOT_VERIFIED (awaiting Owner authorization for git push)"
+  - "REMOTE_CI_STATUS: VERIFIED (GitHub Actions Run 38652937037 passed all 5 jobs on feat/p00-foundation)"
 rollback: "git revert; clean package addition"
 reviewed_by: null
 approved_at: null
