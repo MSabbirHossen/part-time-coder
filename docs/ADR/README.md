@@ -17,6 +17,7 @@
 | [ADR-0004](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/ADR/ADR-0004-firebase-auth-scoped-rbac.md) | Firebase Authentication and Database-Backed Scoped RBAC | `approved` | `approved` (2026-10-14) | PTC-IAM-001–010, PTC-SEC-001, PTC-SEC-003, PTC-SEC-004 | P00 / G0 |
 | [ADR-0005](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/ADR/ADR-0005-dedicated-worker-durable-jobs.md) | Dedicated Background Worker and Durable Job Processing | `approved` | `approved` (2026-10-14) | PTC-SOC-004, PTC-SOC-005, PTC-OPS-004, PTC-NFR-007 | P00 / G0 |
 | [ADR-0006](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/ADR/ADR-0006-commercial-hosting-environment-strategy.md) | Commercial Hosting, Deployment Separation, and Environment Strategy | `approved` | `approved` (2026-10-14) | PTC-OPS-001, PTC-OPS-002, PTC-OPS-003, PTC-NFR-015 | P00 / G0 |
+| [ADR-0007](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/ADR/ADR-0007-nextjs-16-framework-upgrade.md) | Next.js 16 Framework Security and Support Migration | `proposed` | `pending` | PTC-GOV-001, PTC-NFR-001, PTC-NFR-011, PTC-NFR-012, PTC-SEC-001 | P00 / G0 |
 
 ---
 
