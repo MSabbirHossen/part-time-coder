@@ -42,7 +42,7 @@
 | `IMP-00-04` | PTC-OPS-002, PTC-OPS-003 | Environment contract & secrets | `verified` | Typed Zod schemas (`packages/config/src/env.ts`), .env.example, 23 unit tests passing | `25cd4c0`, `f4b3336` |
 | `IMP-00-05` | PTC-OPS-001, PTC-NFR-011 | GitHub Actions CI workflows | `verified` | [.github/workflows/ci.yml](file:///f:/Code%20Practice/AI-Projects/part-time-coder/.github/workflows/ci.yml) (Local validation: PASS; REMOTE_CI_STATUS: NOT_VERIFIED) | `a584eb0` |
 | `IMP-00-06` | PTC-DATA-001, PTC-DATA-002 | Disposable DB test fixtures | `verified` | [packages/database/src/database.integration.test.ts](file:///f:/Code%20Practice/AI-Projects/part-time-coder/packages/database/src/database.integration.test.ts) (12 integration tests: replica set, transactions, compound unique indexes, isolation) | `357ed4d` |
-| `IMP-00-07` | PTC-OPS-001, PTC-NFR-015 | Commercial hosting assessment | `not_started` | — | — |
+| `IMP-00-07` | PTC-OPS-001, PTC-NFR-015 | Commercial hosting assessment | `verified` | [docs/HOSTING_FEASIBILITY.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/HOSTING_FEASIBILITY.md) (10 dimensions, decision matrix, Render preferred, Hetzner fallback) | pending commit |
 | `IMP-00-08` | PTC-GOV-004, PTC-GOV-005 | Execution registry & test matrix | `in_progress` | [docs/PHASE_STATUS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PHASE_STATUS.md), [docs/TEST_MATRIX.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/TEST_MATRIX.md) | pending |
 | `IMP-00-09` | PTC-INT-001–005 | Identity & provider register | `not_started` | — | — |
 | `IMP-00-10` | PTC-SEC-001–011 | Security baseline & threat model | `not_started` | — | — |
@@ -93,6 +93,7 @@ tickets:
   - IMP-00-04
   - IMP-00-05
   - IMP-00-06
+  - IMP-00-07
 changes:
   commits:
     - f9e9680 (IMP-00-01)
