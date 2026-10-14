@@ -19,6 +19,7 @@
 | `IMP-AT-011` | Config / Security | Typed environment validation & secret redaction | P00 | Unit | `pnpm test:unit` | **PASS** | 23 unit tests in `packages/config/src/env.test.ts` passing (including 8 hardened security checks) |
 | `IMP-AT-012` | Runtime | Health check REST endpoint verification | P00 | Integration | `GET /api/v1/health` | **PASS** | Responds 200 OK with `{ status: 'ok', app: 'Part-time Coder', version: 'v1' }` |
 | `IMP-AT-013` | CI / DevOps | GitHub Actions CI workflow pipeline definition | P00 | Automated | Local validation: typecheck, lint, test, build, secret audits | **PASS** (Local) | `.github/workflows/ci.yml` defined; REMOTE_CI_STATUS: NOT_VERIFIED |
+| `IMP-AT-014` | Database | Disposable DB feasibility, replica set, and invariants | P00 | Integration | `pnpm test:integration` | **PASS** | 12 tests in `packages/database/src/database.integration.test.ts` passing |
 | `IMP-AT-004` | Isolation | Cross-client isolation & IDOR prevention | P02 | Integration | — | `not_run` | Scheduled for Phase P02 |
 | `IMP-AT-005` | Auth / DTO | Client DTO serialization field stripping | P02 | Unit | — | `not_run` | Scheduled for Phase P02 |
 | `IMP-AT-006` | Identity | Firebase session token exchange and cookie | P02 | Integration | — | `not_run` | Scheduled for Phase P02 |
@@ -56,3 +57,24 @@
 | Firebase PEM Boundary Headers | Rejects private keys lacking `-----BEGIN/END PRIVATE KEY-----` | **PASS** |
 | Production HTTPS Public URL | Requires `PUBLIC_APP_URL` to start with `https://` in production | **PASS** |
 | Browser Context Server Env Guard | Throws fatal error if `validateServerEnv` is invoked in browser/client context | **PASS** |
+
+---
+
+## 3. P00 Database Feasibility & Schema Invariants Breakdown (`IMP-AT-014`)
+
+| Scenario | Architectural Invariant | Actual Result |
+|---|---|---|
+| In-Memory Replica Set Spin-up | `MongoMemoryReplSet` initializes with WiredTiger engine, readyState 1 | **PASS** |
+| Connection Failure Graceful Exit | Non-routable host fails within 1s timeout without process hang | **PASS** |
+| Mongoose Schema Validation | Required fields and type rules enforced on `Company` model | **PASS** |
+| Role & Status Enum Validation | Unapproved user role values rejected fail-closed | **PASS** |
+| Currency Formatting & Budget Rule | Uppercase currency enforced; negative budget rejected | **PASS** |
+| Unique Index Constraint | E11000 duplicate key error enforced on `Company.code` | **PASS** |
+| Compound Index: Client Org | Unique constraint `{ companyId: 1, code: 1 }` enforced per company | **PASS** |
+| Compound Index: Project Scope | Unique constraint `{ companyId: 1, clientOrganizationId: 1, code: 1 }` enforced | **PASS** |
+| Client Organization Isolation | Queries with `clientOrganizationId` return strictly scoped tenant records | **PASS** |
+| Cross-Tenant Query Protection | Querying Project ID with mismatched client organization returns `null` | **PASS** |
+| Multi-Document ACID Transactions | Atomically commits cross-collection writes across session | **PASS** |
+| Transaction Abort & Rollback | Aborted transaction rolls back changes cleanly without persistence | **PASS** |
+| Disposable Data Cleanup | `clearTestDatabase()` removes all documents between tests | **PASS** |
+

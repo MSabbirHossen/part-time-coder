@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "typecheck": "pnpm --recursive run typecheck",
     "test:unit": "vitest run",
-    "test:integration": "vitest run --testPathPattern=integration"
+    "test:integration": "vitest run integration"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.71.2",
