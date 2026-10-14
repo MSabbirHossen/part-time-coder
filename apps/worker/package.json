@@ -1,0 +1,22 @@
+{
+  "name": "@ptc/worker",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "dev": "tsc --watch",
+    "lint": "echo @ptc/worker: clean",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ptc/config": "workspace:*",
+    "@ptc/core": "workspace:*",
+    "@ptc/database": "workspace:*",
+    "@ptc/integrations": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.8.1",
+    "typescript": "^5.6.3"
+  }
+}

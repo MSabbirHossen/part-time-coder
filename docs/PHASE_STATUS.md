@@ -38,7 +38,7 @@
 |---|---|---|---|---|---|
 | `IMP-00-01` | PTC-GOV-001, PTC-OPS-001 | Repository baseline audit | `verified` | [docs/AUDIT.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/AUDIT.md) | `f9e9680` |
 | `IMP-00-02` | PTC-GOV-001, PTC-GOV-002, PTC-GOV-004, PTC-ORG-001–006, PTC-IAM-001–010, PTC-SOC-004–005, PTC-OPS-001–004, PTC-NFR-001–002, PTC-NFR-007, PTC-NFR-011–012, PTC-NFR-015 | Architecture ADR confirmation | `verified` | [docs/ADR/](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/ADR/) (ADR-0001 through ADR-0006 approved) | `058883d`, `dd237c4` |
-| `IMP-00-03` | PTC-GOV-004, PTC-NFR-011 | pnpm workspace initialization | `not_started` | — | — |
+| `IMP-00-03` | PTC-GOV-004, PTC-NFR-011 | pnpm workspace initialization | `verified` | Clean install, strict typecheck, lint, and production builds (`apps/web`, `apps/worker`) | pending |
 | `IMP-00-04` | PTC-OPS-002, PTC-OPS-003 | Environment contract & secrets | `not_started` | — | — |
 | `IMP-00-05` | PTC-OPS-001, PTC-NFR-011 | GitHub Actions CI workflows | `not_started` | — | — |
 | `IMP-00-06` | PTC-DATA-001, PTC-DATA-002 | Disposable DB test fixtures | `not_started` | — | — |
@@ -89,24 +89,28 @@ requirement_ids:
 tickets:
   - IMP-00-01
   - IMP-00-02
+  - IMP-00-03
 changes:
   commits:
     - f9e9680 (IMP-00-01)
+    - 058883d (IMP-00-02 draft)
+    - dd237c4 (IMP-00-02 ADR-0006 revision)
+    - ec535b0 (IMP-00-02 Owner approval)
   pull_requests: []
   migrations: []
 checks:
-  lint: {status: not_run, evidence: "No lint scripts prior to IMP-00-03"}
-  typecheck: {status: not_run, evidence: "No TypeScript packages prior to IMP-00-03"}
-  unit: {status: not_run, evidence: "No unit test runner prior to IMP-00-03"}
+  lint: {status: pass, evidence: "pnpm lint passed across all workspace packages"}
+  typecheck: {status: pass, evidence: "pnpm typecheck passed across 8 workspace packages in strict mode"}
+  unit: {status: not_run, evidence: "Test runners scheduled for IMP-00-05/IMP-00-06"}
   integration: {status: not_run, evidence: null}
   e2e: {status: not_run, evidence: null}
   accessibility: {status: not_run, evidence: null}
-  security: {status: pass, evidence: "No hardcoded credentials or uncommitted secrets in audit"}
+  security: {status: pass, evidence: "No hardcoded credentials, strict .gitignore enforced"}
 manual_prerequisites:
-  - "Review and decision on ADR-0001 through ADR-0006 by Owner"
+  - "ADR-0001 through ADR-0006 approved by Owner on 14 October 2026"
 known_gaps:
-  - "Workspace packages (apps/*, packages/*) not yet scaffolded (scheduled for IMP-00-03)"
-rollback: "git checkout to prior commit; clean documentation addition"
+  - "Environment contract validation (.env.example, env.ts) scheduled for IMP-00-04"
+rollback: "git revert to ec535b0; clean package scaffolding"
 reviewed_by: null
 approved_at: null
 ```
