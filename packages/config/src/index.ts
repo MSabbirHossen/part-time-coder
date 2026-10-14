@@ -21,3 +21,5 @@ export const PORTS = {
   web: 3000,
   worker: 3001,
 } as const;
+
+export * from './env';

@@ -111,16 +111,17 @@ part-time-coder/
 ### Dependency Flow Matrix
 
 ```text
-apps/web        --> @ptc/ui, @ptc/core, @ptc/auth, @ptc/config
-apps/worker     --> @ptc/core, @ptc/database, @ptc/integrations, @ptc/config
-@ptc/core       --> @ptc/database, @ptc/config
-@ptc/auth       --> @ptc/database, @ptc/config
-@ptc/database   --> @ptc/config
-@ptc/integrations -> @ptc/config
-@ptc/ui         --> @ptc/config
+apps/web          --> @ptc/ui, @ptc/core, @ptc/auth, @ptc/config
+apps/worker       --> @ptc/core, @ptc/database, @ptc/integrations, @ptc/config
+@ptc/database     --> @ptc/core, @ptc/config
+@ptc/auth         --> @ptc/core, @ptc/database, @ptc/config
+@ptc/integrations --> @ptc/core, @ptc/config
+@ptc/core         --> @ptc/config
+@ptc/ui           --> @ptc/config
 ```
 
 **Forbidden Import Rules:**
+- `@ptc/core` CANNOT import `@ptc/database` (preserves Dependency Inversion; domain logic must never couple to persistence technology).
 - `@ptc/ui` CANNOT import `@ptc/database`, `@ptc/core`, or `@ptc/auth`.
 - `@ptc/core` CANNOT import `@ptc/ui` or Next.js route handlers.
 - `apps/web` CANNOT import `apps/worker` and vice versa.

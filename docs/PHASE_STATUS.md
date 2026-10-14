@@ -39,11 +39,11 @@
 | `IMP-00-01` | PTC-GOV-001, PTC-OPS-001 | Repository baseline audit | `verified` | [docs/AUDIT.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/AUDIT.md) | `f9e9680` |
 | `IMP-00-02` | PTC-GOV-001, PTC-GOV-002, PTC-GOV-004, PTC-ORG-001–006, PTC-IAM-001–010, PTC-SOC-004–005, PTC-OPS-001–004, PTC-NFR-001–002, PTC-NFR-007, PTC-NFR-011–012, PTC-NFR-015 | Architecture ADR confirmation | `verified` | [docs/ADR/](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/ADR/) (ADR-0001 through ADR-0006 approved) | `058883d`, `dd237c4` |
 | `IMP-00-03` | PTC-GOV-004, PTC-NFR-011 | pnpm workspace initialization | `verified` | Clean install, strict typecheck, lint, and production builds (`apps/web`, `apps/worker`) | `614e136` |
-| `IMP-00-04` | PTC-OPS-002, PTC-OPS-003 | Environment contract & secrets | `not_started` | — | — |
+| `IMP-00-04` | PTC-OPS-002, PTC-OPS-003 | Environment contract & secrets | `verified` | Typed Zod schemas (`packages/config/src/env.ts`), .env.example, 15 unit tests passing | pending |
 | `IMP-00-05` | PTC-OPS-001, PTC-NFR-011 | GitHub Actions CI workflows | `not_started` | — | — |
 | `IMP-00-06` | PTC-DATA-001, PTC-DATA-002 | Disposable DB test fixtures | `not_started` | — | — |
 | `IMP-00-07` | PTC-OPS-001, PTC-NFR-015 | Commercial hosting assessment | `not_started` | — | — |
-| `IMP-00-08` | PTC-GOV-004, PTC-GOV-005 | Execution registry & test matrix | `in_progress` | [docs/PHASE_STATUS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PHASE_STATUS.md) | pending |
+| `IMP-00-08` | PTC-GOV-004, PTC-GOV-005 | Execution registry & test matrix | `in_progress` | [docs/PHASE_STATUS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PHASE_STATUS.md), [docs/TEST_MATRIX.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/TEST_MATRIX.md) | pending |
 | `IMP-00-09` | PTC-INT-001–005 | Identity & provider register | `not_started` | — | — |
 | `IMP-00-10` | PTC-SEC-001–011 | Security baseline & threat model | `not_started` | — | — |
 
@@ -90,27 +90,30 @@ tickets:
   - IMP-00-01
   - IMP-00-02
   - IMP-00-03
+  - IMP-00-04
 changes:
   commits:
     - f9e9680 (IMP-00-01)
     - 058883d (IMP-00-02 draft)
     - dd237c4 (IMP-00-02 ADR-0006 revision)
     - ec535b0 (IMP-00-02 Owner approval)
+    - 614e136 (IMP-00-03 workspace scaffold)
+    - a832dbe (IMP-00-03 status update)
   pull_requests: []
   migrations: []
 checks:
-  lint: {status: pass, evidence: "pnpm lint passed across all workspace packages"}
+  lint: {status: pass, evidence: "ESLint passed with zero errors/warnings across all packages"}
   typecheck: {status: pass, evidence: "pnpm typecheck passed across 8 workspace packages in strict mode"}
-  unit: {status: not_run, evidence: "Test runners scheduled for IMP-00-05/IMP-00-06"}
-  integration: {status: not_run, evidence: null}
+  unit: {status: pass, evidence: "15 unit tests passing in packages/config/src/env.test.ts (IMP-AT-011)"}
+  integration: {status: pass, evidence: "Health endpoint GET /api/v1/health verified responding 200 OK (IMP-AT-012)"}
   e2e: {status: not_run, evidence: null}
   accessibility: {status: not_run, evidence: null}
-  security: {status: pass, evidence: "No hardcoded credentials, strict .gitignore enforced"}
+  security: {status: pass, evidence: "Sanitized error messages, secret redaction, public/server schema isolation, .gitignore enforced"}
 manual_prerequisites:
   - "ADR-0001 through ADR-0006 approved by Owner on 14 October 2026"
 known_gaps:
-  - "Environment contract validation (.env.example, env.ts) scheduled for IMP-00-04"
-rollback: "git revert to ec535b0; clean package scaffolding"
+  - "GitHub Actions workflows scheduled for IMP-00-05"
+rollback: "git revert; clean package addition"
 reviewed_by: null
 approved_at: null
 ```
