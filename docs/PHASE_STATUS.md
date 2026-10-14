@@ -47,7 +47,7 @@
 | `IMP-00-07` | PTC-OPS-001, PTC-NFR-015 | Commercial hosting assessment | `verified` | [docs/HOSTING_FEASIBILITY.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/HOSTING_FEASIBILITY.md) (10 dimensions, verified pricing, Render preferred, Hetzner fallback) | `bbfe357` |
 | `IMP-00-08` | PTC-GOV-004, PTC-GOV-005 | Execution registry & test matrix | `verified` | [docs/PHASE_STATUS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PHASE_STATUS.md), [docs/TEST_MATRIX.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/TEST_MATRIX.md), [docs/OPERATIONS_DECISIONS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/OPERATIONS_DECISIONS.md) | `6b6296f` |
 | `IMP-00-09` | PTC-INT-001–005 | Identity & provider register | `verified` | [docs/PROVIDER_REGISTRY.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PROVIDER_REGISTRY.md) (10 providers: Firebase, Atlas, Cloudinary, Resend, 6 social targets) | `c23fa4d` |
-| `IMP-00-10` | PTC-SEC-001–011, PTC-NFR-004–007, PTC-NFR-009–010 | Security baseline & threat model | `verified` | [docs/SECURITY_BASELINE.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/SECURITY_BASELINE.md) (STRIDE threat model across 11 domains, master risk matrix, verified commands) | pending commit |
+| `IMP-00-10` | PTC-SEC-001–011, PTC-NFR-004–007, PTC-NFR-009–010 | Security baseline & threat model | `verified` | [docs/SECURITY_BASELINE.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/SECURITY_BASELINE.md) (STRIDE threat model across 11 domains, master risk matrix, verified commands) | `2947efb` |
 
 ---
 
@@ -145,6 +145,7 @@ changes:
     - 59c4119 (ci: configure Gitleaks allowlist & config path; REMOTE_CI_STATUS: VERIFIED)
     - 6b6296f (docs: establish master evidence registry and operations decisions)
     - c23fa4d (IMP-00-09 provider registry)
+    - 2947efb (IMP-00-10 security baseline)
   pull_requests: []
   migrations: []
 checks:
@@ -160,7 +161,7 @@ manual_prerequisites:
   - "ADR-0001 through ADR-0006 approved by Owner on 14 October 2026"
   - "ADR-0007 approved by Owner on 15 October 2026"
 known_gaps:
-  - "REMOTE_CI_STATUS: VERIFIED (GitHub Actions Run 38652937037 passed all 5 jobs on feat/p00-foundation)"
+  - "REMOTE_CI_STATUS: VERIFIED (GitHub Actions Run 38653698823 passed all 5 jobs on feat/p00-foundation on commit 2947efb)"
 rollback: "git revert; clean package addition"
 reviewed_by: null
 approved_at: null
