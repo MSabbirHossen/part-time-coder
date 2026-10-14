@@ -3,10 +3,10 @@
 ```yaml
 id: ADR-0003
 title: Single-Company Architecture and Client Organization Isolation
-status: proposed
-owner_decision: pending
-decision_date: null
-approver: null
+status: approved
+owner_decision: approved
+decision_date: "2026-10-14"
+approver: "Owner"
 reason: "Define the multi-organization tenant model ensuring Part-time Coder operates as a single internal enterprise while providing absolute data isolation and scoped access for multiple client organizations."
 source_sections:
   - "docs/PRD.md: Section 4 (Platform Tenancy and Company Model)"
@@ -205,4 +205,4 @@ If a future enterprise client contracts for dedicated hosting, their documents c
 
 - **Proposed by:** AI Development Agent (Antigravity)
 - **Reviewer:** Part-time Coder Owner / Tech Lead
-- **Status:** `proposed` (Pending Owner Approval)
+- **Status:** `approved` (Approved by Owner on 14 October 2026)

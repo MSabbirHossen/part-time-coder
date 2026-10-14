@@ -3,10 +3,10 @@
 ```yaml
 id: ADR-0001
 title: Modular Monolith and Next.js Application Architecture
-status: proposed
-owner_decision: pending
-decision_date: null
-approver: null
+status: approved
+owner_decision: approved
+decision_date: "2026-10-14"
+approver: "Owner"
 reason: "Establish the foundational application architecture for the Part-time Coder unified platform balancing operational simplicity, developer productivity, and strict domain boundaries."
 source_sections:
   - "docs/PRD.md: Section 3 (System Architecture & Principles)"
@@ -164,4 +164,4 @@ Because domain logic is strictly isolated in `packages/core` and accessed via we
 
 - **Proposed by:** AI Development Agent (Antigravity)
 - **Reviewer:** Part-time Coder Owner / Tech Lead
-- **Status:** `proposed` (Pending Owner Approval)
+- **Status:** `approved` (Approved by Owner on 14 October 2026)

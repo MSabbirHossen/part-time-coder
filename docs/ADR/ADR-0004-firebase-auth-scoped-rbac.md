@@ -3,10 +3,10 @@
 ```yaml
 id: ADR-0004
 title: Firebase Authentication and Database-Backed Scoped RBAC
-status: proposed
-owner_decision: pending
-decision_date: null
-approver: null
+status: approved
+owner_decision: approved
+decision_date: "2026-10-14"
+approver: "Owner"
 reason: "Establish the identity and authorization architecture separating external identity verification from fine-grained, database-backed role-based and scope-based access control."
 source_sections:
   - "docs/PRD.md: Section 6 (User Roles, Access & Identity)"
@@ -37,7 +37,7 @@ options_and_tradeoffs:
   - "Option B: Custom in-house auth (bcrypt/Argon2 + JWTs in MongoDB)."
   - "Option C: Pure Firebase Auth using Firebase Custom Claims for all roles and permissions."
 security_privacy_finance_impact: "Guarantees that token theft or revoked privileges take effect immediately via database-backed authorization revisions; prevents privilege escalation; protects last owner from accidental lockout."
-provider_cost_or_approval_impact: "Firebase Auth free tier covers 50,000 monthly active users (MAU), easily accommodating MVP requirements at zero cost."
+provider_cost_or_approval_impact: "Uses Firebase Spark (free) for email/password and token verification in dev/staging; any upgrade to Blaze (pay-as-you-go) for SMS MFA or advanced Identity Platform features requires explicit Owner approval."
 migration_and_rollback: "Decoupled Firebase UID mapping in MongoDB allows swapping identity providers (e.g. Auth0, Clerk, self-hosted OIDC) without altering business data schemas."
 updated_acceptance_tests:
   - IMP-AT-006
@@ -184,9 +184,18 @@ sequenceDiagram
 
 ---
 
-## 8. Cost Implications
+## 8. Cost Implications & Plan Quota Disciplinary Rules
 
-- Firebase Authentication is free up to 50,000 monthly active users, which covers development, staging, and early commercial operations at $0/month.
+- **Firebase Spark (Free Tier):**
+  - Covers baseline email/password authentication, password resets, and server ID token verification at zero monthly cost for local and staging development.
+  - Does **not** include phone/SMS MFA without strict limits (Spark includes only 10 SMS verifications/day for testing in specific regions).
+  - Advanced multi-tenancy and enterprise OIDC/SAML features are not available on Spark.
+- **Firebase Blaze (Pay-as-You-Go Plan):**
+  - While Firebase Authentication with Identity Platform offers a free tier of up to 50,000 monthly active users (MAUs) for email/password and social providers under Blaze, enabling Blaze requires adding a billing account.
+  - SMS-based MFA incurs per-verification carrier charges and requires Blaze.
+- **Owner Approval Checkpoint:**
+  - Upgrading from Spark to Blaze, enabling Identity Platform features, or activating SMS-based MFA is an explicit Owner financial gate. It must not be enabled automatically.
+  - Preferred MVP MFA approach: TOTP (authenticator app) or web-based step-up authentication where supported on free tier, deferring SMS telephony charges until approved.
 
 ---
 
@@ -210,6 +219,7 @@ If single-sign-on (SAML/SSO) is required for enterprise clients in future phases
 | User suspended in MongoDB but Firebase token still valid | Server-side session verification always queries the MongoDB `users` status before serving requests. |
 | Accidental lockout of the last Owner | Database invariant and domain service transaction refuse any deletion or demotion of the final active owner. |
 | Session hijacking | `HttpOnly`, `Secure`, `SameSite=Lax` cookie policy, paired with IP/UA fingerprint anomaly detection in `sessionSecurityEvents`. |
+| Unintended SMS billing on Blaze | Require Owner sign-off before Blaze activation; prioritize non-SMS MFA (TOTP). |
 
 ---
 
@@ -225,4 +235,4 @@ If single-sign-on (SAML/SSO) is required for enterprise clients in future phases
 
 - **Proposed by:** AI Development Agent (Antigravity)
 - **Reviewer:** Part-time Coder Owner / Tech Lead
-- **Status:** `proposed` (Pending Owner Approval)
+- **Status:** `approved` (Approved by Owner on 14 October 2026 with Spark/Blaze quota clarification)

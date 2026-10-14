@@ -37,7 +37,7 @@
 | Task ID | Requirement IDs | Description | Status | Evidence / Artifacts | Commit SHA |
 |---|---|---|---|---|---|
 | `IMP-00-01` | PTC-GOV-001, PTC-OPS-001 | Repository baseline audit | `verified` | [docs/AUDIT.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/AUDIT.md) | `f9e9680` |
-| `IMP-00-02` | PTC-GOV-001, PTC-GOV-002, PTC-GOV-004, PTC-ORG-001–006, PTC-IAM-001–010, PTC-SOC-004–005, PTC-OPS-001–004, PTC-NFR-001–002, PTC-NFR-007, PTC-NFR-011–012, PTC-NFR-015 | Architecture ADR confirmation | `implemented` (Pending Owner Decision) | [docs/ADR/](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/ADR/) (ADR-0001 through ADR-0006) | pending |
+| `IMP-00-02` | PTC-GOV-001, PTC-GOV-002, PTC-GOV-004, PTC-ORG-001–006, PTC-IAM-001–010, PTC-SOC-004–005, PTC-OPS-001–004, PTC-NFR-001–002, PTC-NFR-007, PTC-NFR-011–012, PTC-NFR-015 | Architecture ADR confirmation | `verified` | [docs/ADR/](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/ADR/) (ADR-0001 through ADR-0006 approved) | `058883d`, `dd237c4` |
 | `IMP-00-03` | PTC-GOV-004, PTC-NFR-011 | pnpm workspace initialization | `not_started` | — | — |
 | `IMP-00-04` | PTC-OPS-002, PTC-OPS-003 | Environment contract & secrets | `not_started` | — | — |
 | `IMP-00-05` | PTC-OPS-001, PTC-NFR-011 | GitHub Actions CI workflows | `not_started` | — | — |

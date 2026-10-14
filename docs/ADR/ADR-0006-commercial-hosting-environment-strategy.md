@@ -3,10 +3,10 @@
 ```yaml
 id: ADR-0006
 title: Commercial Hosting, Deployment Separation, and Environment Strategy
-status: proposed
-owner_decision: pending
-decision_date: null
-approver: null
+status: approved
+owner_decision: approved
+decision_date: "2026-10-14"
+approver: "Owner"
 reason: "Establish the infrastructure hosting architecture, multi-environment lifecycle, typed configuration management, and deployment separation between the web platform and background worker in compliance with commercial-use terms and a free-tier-first cost discipline."
 source_sections:
   - "docs/PRD.md: Section 14 (Operational Requirements & Non-Functional)"
@@ -116,12 +116,12 @@ flowchart LR
 
 | Dimension | Local (`local`) | Staging (`staging`) | Production (`production`) |
 |---|---|---|---|
-| **Primary Strategy** | Free tier / local emulation | Free / preview sandbox | Commercial-compliant; Owner-approved |
-| **Estimated Cost** | **$0 / month** | **$0 / month** (or nominal test credits) | **To be finalized under IMP-00-07** |
+| **Primary Strategy** | Free tier / local emulation | Free / preview sandbox (Target cost objective) | Commercial-compliant; Owner-approved |
+| **Estimated Cost** | **$0 / month** | **$0 / month objective** (not guaranteed; nominal preview/usage costs may apply) | **To be finalized under IMP-00-07** |
 | **Web Runtime** | Local Node (`localhost:3000`) | Free/preview PaaS deployment | Commercial PaaS / Container (Independent unit) |
 | **Worker Runtime** | Local Node process (`pnpm dev:worker`) | Local or free preview container | Persistent container / process (Independent unit) |
-| **Database** | Disposable local or Atlas M0 free tier | Dedicated staging Atlas M0 tier | MongoDB Atlas (Tier subject to Owner approval) |
-| **Identity** | Firebase Local Emulator / Dev project | Staging Firebase project (Free tier) | Production Firebase project (Free up to 50k MAU) |
+| **Database** | Disposable local or Atlas M0 free tier | Dedicated staging Atlas M0 tier (No automated backups) | MongoDB Atlas (Tier & backup strategy subject to Owner approval) |
+| **Identity** | Firebase Local Emulator / Dev project | Staging Firebase project (Spark free tier) | Production Firebase project (Requires Owner approval for Blaze/MFA) |
 | **Media Storage** | Local filesystem / Mock storage | Staging Cloudinary bucket (Free tier) | Production Cloudinary bucket (Free tier first) |
 | **Social APIs** | Mock adapters / local sandbox | Developer sandbox / test accounts | Approved provider developer apps (Owner approved) |
 
@@ -156,11 +156,11 @@ If any required variable is absent or invalid, the process terminates immediatel
 
 ## 7. Owner Financial Checkpoints & Approval Gates
 
-The following financial and provider commitments **MUST NOT** be incurred autonomously by AI agents or engineering staff. Each requires an explicit Owner review and documented decision:
+The following financial, provider, and operational commitments **MUST NOT** be incurred autonomously by AI agents or engineering staff. Each requires an explicit Owner review and documented decision:
 
 1. **Paid Web Hosting:** Selection of commercial production web hosting provider and tier.
 2. **Persistent Worker Hosting:** Selection of production container/VPS hosting for `apps/worker`.
-3. **Database Tier Upgrades:** Upgrading from MongoDB Atlas free M0 tier to dedicated paid tiers (M2/M5/M10).
+3. **Database Tier Upgrades & Backups:** Upgrading from MongoDB Atlas free M0 tier to dedicated paid tiers (M2/M5/M10), or configuring managed backup services.
 4. **Media Storage Upgrades:** Moving beyond Cloudinary's free tier.
 5. **Paid Social Developer Accounts:** Any fee associated with third-party social API access (e.g. X API paid tiers).
 6. **Domain & DNS Purchases:** Production domain registration and DNS service expenses.
@@ -182,13 +182,14 @@ Both `apps/web` and `apps/worker` will include standard multi-stage `Dockerfile`
 
 ---
 
-## 10. Risks and Mitigations
+## 10. Risks, Mitigations & Database Recovery Architecture
 
 | Risk | Mitigation |
 |---|---|
 | Accidental commit of `.env` secrets | Enforce `.gitignore`, pre-commit secret scans, and CI secret detection. |
 | Unexpected hosting billing charges | Hard billing alerts, spending limits, and mandatory Owner approval checkpoints. |
-| Production database data loss | Automated daily snapshots and point-in-time recovery (PITR) in MongoDB Atlas. |
+| **MongoDB Atlas Free lack of backups** | **Atlas Free (M0) does NOT provide automated managed snapshots or PITR.** A tested, independent backup-and-restore mechanism (automated `mongodump` with client-side encryption to offsite storage) must be created and verified prior to production launch. |
+| Staging cost overruns | Staging is managed to a $0 cost objective; any billable sandbox feature requires explicit Owner consent. |
 
 ---
 
@@ -196,7 +197,8 @@ Both `apps/web` and `apps/worker` will include standard multi-stage `Dockerfile`
 
 - Typed environment schema unit tests (`IMP-AT-011`): Missing variable triggers process exit; valid variables pass schema cleanly.
 - Health check route test (`IMP-AT-012`): `/api/v1/health` verifies database connectivity and process uptime.
-- Verification that local and staging environments run completely on free tiers.
+- Verification that local development operates completely on free/emulated tools.
+- Verification of an offline/independent database export and restore rehearsal prior to production cutover.
 
 ---
 
@@ -204,4 +206,4 @@ Both `apps/web` and `apps/worker` will include standard multi-stage `Dockerfile`
 
 - **Proposed by:** AI Development Agent (Antigravity)
 - **Reviewer:** Part-time Coder Owner / Tech Lead
-- **Status:** `proposed` (Pending Owner Approval)
+- **Status:** `approved` (Approved by Owner on 14 October 2026 with staging cost objective, database recovery, and approval checkpoint clarifications)

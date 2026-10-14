@@ -3,10 +3,10 @@
 ```yaml
 id: ADR-0005
 title: Dedicated Background Worker and Durable Job Processing
-status: proposed
-owner_decision: pending
-decision_date: null
-approver: null
+status: approved
+owner_decision: approved
+decision_date: "2026-10-14"
+approver: "Owner"
 reason: "Establish the background worker architecture, durable job scheduling, and outbox event dispatch mechanism ensuring reliable asynchronous operations without degrading web application responsiveness."
 source_sections:
   - "docs/PRD.md: Section 10 (Social Campaign Management & Publishing) & Section 14 (Operational Requirements)"
@@ -209,4 +209,4 @@ When Part-time Coder scales beyond 100,000 background events per day, the `packa
 
 - **Proposed by:** AI Development Agent (Antigravity)
 - **Reviewer:** Part-time Coder Owner / Tech Lead
-- **Status:** `proposed` (Pending Owner Approval)
+- **Status:** `approved` (Approved by Owner on 14 October 2026)

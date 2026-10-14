@@ -3,10 +3,10 @@
 ```yaml
 id: ADR-0002
 title: pnpm Monorepo Structure and Package Boundaries
-status: proposed
-owner_decision: pending
-decision_date: null
-approver: null
+status: approved
+owner_decision: approved
+decision_date: "2026-10-14"
+approver: "Owner"
 reason: "Establish clear workspace package layout and strict import boundaries to prevent circular dependencies, ensure clean domain separation, and maintain high developer velocity."
 source_sections:
   - "docs/TRD.md: Section 1.3 (Monorepo and Package Architecture)"
@@ -190,4 +190,4 @@ Incremental package extraction: If the team grows or an integration package requ
 
 - **Proposed by:** AI Development Agent (Antigravity)
 - **Reviewer:** Part-time Coder Owner / Tech Lead
-- **Status:** `proposed` (Pending Owner Approval)
+- **Status:** `approved` (Approved by Owner on 14 October 2026)
