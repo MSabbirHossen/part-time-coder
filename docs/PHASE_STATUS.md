@@ -1,0 +1,112 @@
+# Part-time Coder — Phase Implementation & Gate Status Tracker
+
+> **Document ID:** PTC-STATUS-001  
+> **Version:** 1.0.0  
+> **Current Phase:** P00 — Discovery, Environment, CI and Feasibility  
+> **Current Gate:** G0  
+> **Last Updated:** 14 October 2026  
+> **Active Branch:** `feat/p00-foundation`  
+> **Governing Policy:** `AGENTS.md` & `docs/IMPLEMENTATION_PLAN.md`
+
+---
+
+## 1. Phase Overview Matrix
+
+| Phase | Gate | Title | Status | Technical Result | Owner Decision | Gating Dependencies |
+|---|---|---|---|---|---|---|
+| **P00** | **G0** | **Discovery, environment, CI and feasibility** | **in_progress** | pending completion | pending | Baseline Owner approval |
+| P01 | G1 | Design system, shells & interaction foundation | not_started | not_run | pending | G0 approval |
+| P02 | G2 | Firebase sessions, scoped authorization & client isolation | not_started | not_run | pending | G0, G1 approval |
+| P03 | G3 | Public website, product catalog, CMS & media | not_started | not_run | pending | G1, G2 approval |
+| P04 | G4 | CRM, pipeline, quotations & lead conversion | not_started | not_run | pending | G2, G3 forms |
+| P05 | G5 | Projects, employees & internal delivery | not_started | not_run | pending | G2, G4 client model |
+| P06 | G6 | Client portal, scoped collaboration & acceptance | not_started | not_run | pending | G2, G5 approval |
+| P07 | G7 | Social hub core, review & durable scheduling | not_started | not_run | pending | G1, G2, media basics |
+| P08 | G8 | Social provider connections & authorized publishing | not_started | not_run | pending | G7, provider approvals |
+| P09 | G9 | Finance records & operational invoices | not_started | not_run | pending | G2, G4, G6 approval |
+| P10 | G10 | Notifications, analytics & user operational UX | not_started | not_run | pending | G3–G9 data sources |
+| P11 | G11 | Security, privacy, reliability & restoration hardening | not_started | not_run | pending | All core domains |
+| P12 | G12 | End-to-end staging, performance & UAT | not_started | not_run | pending | G3–G11 approval |
+| P13 | G13 | Commercial production deploy & cutover | not_started | not_run | pending | G12, provider/legal approvals |
+| P14 | G14 | Hypercare & post-launch stabilization | not_started | not_run | pending | G13 approval |
+
+---
+
+## 2. Phase P00 Task Execution Log
+
+| Task ID | Requirement IDs | Description | Status | Evidence / Artifacts | Commit SHA |
+|---|---|---|---|---|---|
+| `IMP-00-01` | PTC-GOV-001, PTC-OPS-001 | Repository baseline audit | `verified` | [docs/AUDIT.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/AUDIT.md) | `f9e9680` |
+| `IMP-00-02` | PTC-GOV-001, PTC-GOV-002, PTC-GOV-004, PTC-ORG-001–006, PTC-IAM-001–010, PTC-SOC-004–005, PTC-OPS-001–004, PTC-NFR-001–002, PTC-NFR-007, PTC-NFR-011–012, PTC-NFR-015 | Architecture ADR confirmation | `implemented` (Pending Owner Decision) | [docs/ADR/](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/ADR/) (ADR-0001 through ADR-0006) | pending |
+| `IMP-00-03` | PTC-GOV-004, PTC-NFR-011 | pnpm workspace initialization | `not_started` | — | — |
+| `IMP-00-04` | PTC-OPS-002, PTC-OPS-003 | Environment contract & secrets | `not_started` | — | — |
+| `IMP-00-05` | PTC-OPS-001, PTC-NFR-011 | GitHub Actions CI workflows | `not_started` | — | — |
+| `IMP-00-06` | PTC-DATA-001, PTC-DATA-002 | Disposable DB test fixtures | `not_started` | — | — |
+| `IMP-00-07` | PTC-OPS-001, PTC-NFR-015 | Commercial hosting assessment | `not_started` | — | — |
+| `IMP-00-08` | PTC-GOV-004, PTC-GOV-005 | Execution registry & test matrix | `in_progress` | [docs/PHASE_STATUS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PHASE_STATUS.md) | pending |
+| `IMP-00-09` | PTC-INT-001–005 | Identity & provider register | `not_started` | — | — |
+| `IMP-00-10` | PTC-SEC-001–011 | Security baseline & threat model | `not_started` | — | — |
+
+---
+
+## 3. Current Phase Evidence Packet (P00)
+
+```yaml
+phase: P00
+execution_status: in_progress
+requirement_ids:
+  - PTC-GOV-001
+  - PTC-GOV-002
+  - PTC-GOV-004
+  - PTC-OPS-001
+  - PTC-OPS-002
+  - PTC-OPS-003
+  - PTC-OPS-004
+  - PTC-NFR-001
+  - PTC-NFR-002
+  - PTC-NFR-007
+  - PTC-NFR-011
+  - PTC-NFR-012
+  - PTC-NFR-015
+  - PTC-ORG-001
+  - PTC-ORG-002
+  - PTC-ORG-003
+  - PTC-ORG-004
+  - PTC-ORG-005
+  - PTC-ORG-006
+  - PTC-IAM-001
+  - PTC-IAM-002
+  - PTC-IAM-003
+  - PTC-IAM-004
+  - PTC-IAM-005
+  - PTC-IAM-006
+  - PTC-IAM-007
+  - PTC-IAM-008
+  - PTC-IAM-009
+  - PTC-IAM-010
+  - PTC-SOC-004
+  - PTC-SOC-005
+tickets:
+  - IMP-00-01
+  - IMP-00-02
+changes:
+  commits:
+    - f9e9680 (IMP-00-01)
+  pull_requests: []
+  migrations: []
+checks:
+  lint: {status: not_run, evidence: "No lint scripts prior to IMP-00-03"}
+  typecheck: {status: not_run, evidence: "No TypeScript packages prior to IMP-00-03"}
+  unit: {status: not_run, evidence: "No unit test runner prior to IMP-00-03"}
+  integration: {status: not_run, evidence: null}
+  e2e: {status: not_run, evidence: null}
+  accessibility: {status: not_run, evidence: null}
+  security: {status: pass, evidence: "No hardcoded credentials or uncommitted secrets in audit"}
+manual_prerequisites:
+  - "Review and decision on ADR-0001 through ADR-0006 by Owner"
+known_gaps:
+  - "Workspace packages (apps/*, packages/*) not yet scaffolded (scheduled for IMP-00-03)"
+rollback: "git checkout to prior commit; clean documentation addition"
+reviewed_by: null
+approved_at: null
+```
