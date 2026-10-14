@@ -3,10 +3,10 @@
 ```yaml
 id: ADR-0007
 title: Next.js 16 Framework Security and Support Migration
-status: proposed
-owner_decision: pending
-decision_date: null
-approver: null
+status: approved
+owner_decision: approved
+decision_date: "2026-10-15"
+approver: "Owner"
 reason: "Next.js 14 is out of official security support. Migrate the web application framework to Next.js 16 LTS (16.4.1) to maintain ongoing security patches, framework stability, and upstream dependency compatibility."
 source_sections:
   - "docs/TRD.md: Section 2.1 (Web Application Architecture)"
@@ -82,7 +82,7 @@ This ADR is submitted to the Owner for approval prior to upgrading the web appli
 
 ---
 
-## 4. Current Status and Owner Action Required
+## 4. Current Status and Decision Record
 
-- **Status:** `proposed` (Pending Owner Decision)
-- **Action Required:** Owner review and approval of ADR-0007. Per change-control rules, dependency migration is halted pending authorization; independent CI implementation (`IMP-00-05`) proceeds without blocker.
+- **Status:** `approved` (Formally approved by Owner on 15 October 2026)
+- **Scope of Approval:** Framework migration of `@ptc/web` to Next.js 16 and required React/TypeScript compatibility updates. Does not authorize unapproved architectural modifications, paid infrastructure, or phase advancement.
