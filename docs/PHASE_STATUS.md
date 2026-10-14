@@ -91,6 +91,8 @@ tickets:
   - IMP-00-02
   - IMP-00-03
   - IMP-00-04
+  - IMP-00-05
+  - IMP-00-06
 changes:
   commits:
     - f9e9680 (IMP-00-01)
@@ -99,20 +101,29 @@ changes:
     - ec535b0 (IMP-00-02 Owner approval)
     - 614e136 (IMP-00-03 workspace scaffold)
     - a832dbe (IMP-00-03 status update)
+    - 25cd4c0 (IMP-00-04 env validation)
+    - f4b3336 (IMP-00-04 security hardening)
+    - a584eb0 (IMP-00-05 CI workflows)
+    - 716bc23 (chore: Next.js 16 migration)
+    - 775cecf (ci: Gitleaks history & audit)
+    - 357ed4d (IMP-00-06 DB feasibility & fixtures)
+    - 88a35bb (docs: record IMP-00-06 SHA)
   pull_requests: []
   migrations: []
 checks:
-  lint: {status: pass, evidence: "ESLint passed with zero errors/warnings across all packages"}
+  lint: {status: pass, evidence: "ESLint passed with zero errors/warnings across all packages (eslint .)"}
   typecheck: {status: pass, evidence: "pnpm typecheck passed across 8 workspace packages in strict mode"}
-  unit: {status: pass, evidence: "15 unit tests passing in packages/config/src/env.test.ts (IMP-AT-011)"}
-  integration: {status: pass, evidence: "Health endpoint GET /api/v1/health verified responding 200 OK (IMP-AT-012)"}
+  unit: {status: pass, evidence: "23 unit tests passing in packages/config/src/env.test.ts (IMP-AT-011)"}
+  integration: {status: pass, evidence: "12 database integration tests passing against in-memory replica set (IMP-AT-014); GET /api/v1/health responds 200 OK"}
+  build: {status: pass, evidence: "Next.js 16.4.1 Turbopack and @ptc/worker compile clean"}
   e2e: {status: not_run, evidence: null}
   accessibility: {status: not_run, evidence: null}
-  security: {status: pass, evidence: "Sanitized error messages, secret redaction, public/server schema isolation, .gitignore enforced"}
+  security: {status: pass, evidence: "Gitleaks v3 (SHA e0c47f4) clean; pnpm audit 0 high/critical CVEs; secret redaction and .gitignore enforced"}
 manual_prerequisites:
   - "ADR-0001 through ADR-0006 approved by Owner on 14 October 2026"
+  - "ADR-0007 approved by Owner on 15 October 2026"
 known_gaps:
-  - "GitHub Actions workflows scheduled for IMP-00-05"
+  - "REMOTE_CI_STATUS: NOT_VERIFIED (awaiting Owner authorization for git push)"
 rollback: "git revert; clean package addition"
 reviewed_by: null
 approved_at: null

@@ -106,13 +106,33 @@ ProjectSchema.index(
 export const Project = model<IProject>('Project', ProjectSchema);
 
 // -----------------------------------------------------------------------------
-// 4. User Model (Firebase Identity to Database Authorization binding)
+// 4. User Model (P00 Architectural Feasibility Model)
 // -----------------------------------------------------------------------------
+/**
+ * @fileoverview P00 Feasibility User Model
+ *
+ * IMPORTANT ARCHITECTURAL NOTE:
+ * This User schema is strictly an interim P00 feasibility fixture designed
+ * to validate Mongoose connection lifecycles, database constraints, indexing,
+ * transactions, and tenant company isolation.
+ *
+ * It must NOT be mistaken for the final production multi-role scoped RBAC model.
+ *
+ * In accordance with ADR-0004 ("Firebase Authentication and Database-Backed Scoped RBAC")
+ * and docs/BACKEND_SCHEMA.md, Phase P02 (IMP-02-01 / IMP-02-02) will replace this
+ * simple single-role field with granular, document-level and organization-level
+ * scoped RBAC data structures (e.g., RoleGrant, explicit project memberships,
+ * fine-grained permissions, and dynamic client/internal role bindings).
+ */
 export interface IUser extends Document {
   companyId: Types.ObjectId;
   firebaseUid: string;
   email: string;
   status: 'active' | 'suspended' | 'invited';
+  /**
+   * Single role enum for P00 feasibility tests only.
+   * Final multi-role, project-scoped RBAC will be implemented in P02.
+   */
   role: 'owner' | 'admin' | 'staff' | 'client';
   clientOrganizationId?: Types.ObjectId;
   createdAt: Date;

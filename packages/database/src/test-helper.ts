@@ -10,6 +10,9 @@ export async function setupTestDatabase(): Promise<string> {
   if (!replSet) {
     replSet = await MongoMemoryReplSet.create({
       replSet: { count: 1, storageEngine: 'wiredTiger' },
+      binary: {
+        version: process.env.MONGOMS_VERSION || '8.2.6',
+      },
     });
   }
 

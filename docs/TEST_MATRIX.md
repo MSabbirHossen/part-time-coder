@@ -15,10 +15,10 @@
 |---|---|---|---|---|---|---|---|
 | `IMP-AT-001` | Architecture | Monorepo strict TypeScript typecheck | P00 | Static | `pnpm typecheck` | **PASS** | 8 workspace projects checked without errors (`tsc --noEmit`) |
 | `IMP-AT-002` | Architecture | Monorepo static linting and import rules | P00 | Static | `pnpm lint` (`eslint .`) | **PASS** | Clean ESLint run across all packages |
-| `IMP-AT-003` | Architecture | Package compilation and production build | P00 | Build | `pnpm build` | **PASS** | `@ptc/worker` tsc build and `@ptc/web` Next.js 14 SSG build clean |
+| `IMP-AT-003` | Architecture | Package compilation and production build | P00 | Build | `pnpm build` | **PASS** | `@ptc/worker` tsc build and `@ptc/web` Next.js 16 (Turbopack) build clean |
 | `IMP-AT-011` | Config / Security | Typed environment validation & secret redaction | P00 | Unit | `pnpm test:unit` | **PASS** | 23 unit tests in `packages/config/src/env.test.ts` passing (including 8 hardened security checks) |
 | `IMP-AT-012` | Runtime | Health check REST endpoint verification | P00 | Integration | `GET /api/v1/health` | **PASS** | Responds 200 OK with `{ status: 'ok', app: 'Part-time Coder', version: 'v1' }` |
-| `IMP-AT-013` | CI / DevOps | GitHub Actions CI workflow pipeline definition | P00 | Automated | Local validation: typecheck, lint, test, build, secret audits | **PASS** (Local) | `.github/workflows/ci.yml` defined; REMOTE_CI_STATUS: NOT_VERIFIED |
+| `IMP-AT-013` | CI / DevOps | GitHub Actions CI workflow pipeline definition | P00 | Automated | Local validation: typecheck, lint, test-unit, test-integration, build, Gitleaks v3 SHA-pinned secret audit | **PASS** (Local) | `.github/workflows/ci.yml` upgraded to Gitleaks v3 & dedicated DB integration job; REMOTE_CI_STATUS: NOT_VERIFIED |
 | `IMP-AT-014` | Database | Disposable DB feasibility, replica set, and invariants | P00 | Integration | `pnpm test:integration` | **PASS** | 12 tests in `packages/database/src/database.integration.test.ts` passing |
 | `IMP-AT-004` | Isolation | Cross-client isolation & IDOR prevention | P02 | Integration | — | `not_run` | Scheduled for Phase P02 |
 | `IMP-AT-005` | Auth / DTO | Client DTO serialization field stripping | P02 | Unit | — | `not_run` | Scheduled for Phase P02 |
