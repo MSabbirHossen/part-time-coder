@@ -1,0 +1,17 @@
+# Part-time Coder — Gitleaks Configuration
+# Enforces secret scanning across repository history while defining explicit allowlists for test fixtures and documentation
+
+title = "Part-time Coder Gitleaks Configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Global allowlists for synthetic test suites, CI workflows, and documentation examples"
+paths = [
+  '''\.test\.(ts|js)$''',
+  '''\.spec\.(ts|js)$''',
+  '''\.github/workflows/.*''',
+  '''docs/.*''',
+  '''\.env\.example$'''
+]
