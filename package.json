@@ -8,7 +8,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "build": "pnpm --filter @ptc/config build && pnpm --recursive --filter \"!@ptc/config\" run build",
+    "build": "pnpm --filter @ptc/worker build && pnpm --filter @ptc/web build",
     "dev": "pnpm --filter @ptc/web dev",
     "dev:worker": "pnpm --filter @ptc/worker dev",
     "lint": "eslint .",
