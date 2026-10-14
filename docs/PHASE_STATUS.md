@@ -14,7 +14,9 @@
 
 | Phase | Gate | Title | Status | Technical Result | Owner Decision | Gating Dependencies |
 |---|---|---|---|---|---|---|
-| **P00** | **G0** | **Discovery, environment, CI and feasibility** | **in_progress** | pending completion | pending | Baseline Owner approval |
+| Phase | Gate | Title | Status | Technical Result | Owner Decision | Gating Dependencies |
+|---|---|---|---|---|---|---|
+| **P00** | **G0** | **Discovery, environment, CI and feasibility** | **completed_pending_owner_signoff** | all 10 tasks verified; remote CI verified; 35 tests pass | pending G0 review | Baseline Owner approval |
 | P01 | G1 | Design system, shells & interaction foundation | not_started | not_run | pending | G0 approval |
 | P02 | G2 | Firebase sessions, scoped authorization & client isolation | not_started | not_run | pending | G0, G1 approval |
 | P03 | G3 | Public website, product catalog, CMS & media | not_started | not_run | pending | G1, G2 approval |
@@ -44,8 +46,8 @@
 | `IMP-00-06` | PTC-DATA-001, PTC-DATA-002 | Disposable DB test fixtures | `verified` | [packages/database/src/database.integration.test.ts](file:///f:/Code%20Practice/AI-Projects/part-time-coder/packages/database/src/database.integration.test.ts) (12 integration tests: replica set, transactions, compound unique indexes, isolation) | `357ed4d` |
 | `IMP-00-07` | PTC-OPS-001, PTC-NFR-015 | Commercial hosting assessment | `verified` | [docs/HOSTING_FEASIBILITY.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/HOSTING_FEASIBILITY.md) (10 dimensions, verified pricing, Render preferred, Hetzner fallback) | `bbfe357` |
 | `IMP-00-08` | PTC-GOV-004, PTC-GOV-005 | Execution registry & test matrix | `verified` | [docs/PHASE_STATUS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PHASE_STATUS.md), [docs/TEST_MATRIX.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/TEST_MATRIX.md), [docs/OPERATIONS_DECISIONS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/OPERATIONS_DECISIONS.md) | `6b6296f` |
-| `IMP-00-09` | PTC-INT-001–005 | Identity & provider register | `verified` | [docs/PROVIDER_REGISTRY.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PROVIDER_REGISTRY.md) (10 providers: Firebase, Atlas, Cloudinary, Resend, 6 social targets) | pending commit |
-| `IMP-00-10` | PTC-SEC-001–011 | Security baseline & threat model | `not_started` | — | — |
+| `IMP-00-09` | PTC-INT-001–005 | Identity & provider register | `verified` | [docs/PROVIDER_REGISTRY.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PROVIDER_REGISTRY.md) (10 providers: Firebase, Atlas, Cloudinary, Resend, 6 social targets) | `c23fa4d` |
+| `IMP-00-10` | PTC-SEC-001–011, PTC-NFR-004–007, PTC-NFR-009–010 | Security baseline & threat model | `verified` | [docs/SECURITY_BASELINE.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/SECURITY_BASELINE.md) (STRIDE threat model across 11 domains, master risk matrix, verified commands) | pending commit |
 
 ---
 
@@ -53,7 +55,7 @@
 
 ```yaml
 phase: P00
-execution_status: in_progress
+execution_status: completed_pending_owner_signoff
 requirement_ids:
   - PTC-GOV-001
   - PTC-GOV-002
@@ -64,7 +66,12 @@ requirement_ids:
   - PTC-OPS-004
   - PTC-NFR-001
   - PTC-NFR-002
+  - PTC-NFR-004
+  - PTC-NFR-005
+  - PTC-NFR-006
   - PTC-NFR-007
+  - PTC-NFR-009
+  - PTC-NFR-010
   - PTC-NFR-011
   - PTC-NFR-012
   - PTC-NFR-015
@@ -95,6 +102,17 @@ requirement_ids:
   - PTC-INT-003
   - PTC-INT-004
   - PTC-INT-005
+  - PTC-SEC-001
+  - PTC-SEC-002
+  - PTC-SEC-003
+  - PTC-SEC-004
+  - PTC-SEC-005
+  - PTC-SEC-006
+  - PTC-SEC-007
+  - PTC-SEC-008
+  - PTC-SEC-009
+  - PTC-SEC-010
+  - PTC-SEC-011
 tickets:
   - IMP-00-01
   - IMP-00-02
@@ -105,6 +123,7 @@ tickets:
   - IMP-00-07
   - IMP-00-08
   - IMP-00-09
+  - IMP-00-10
 changes:
   commits:
     - f9e9680 (IMP-00-01)
@@ -125,6 +144,7 @@ changes:
     - bbfe357 (docs: reconcile hosting assessment with verified provider limits)
     - 59c4119 (ci: configure Gitleaks allowlist & config path; REMOTE_CI_STATUS: VERIFIED)
     - 6b6296f (docs: establish master evidence registry and operations decisions)
+    - c23fa4d (IMP-00-09 provider registry)
   pull_requests: []
   migrations: []
 checks:
