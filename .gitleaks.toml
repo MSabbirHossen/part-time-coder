@@ -13,5 +13,10 @@ paths = [
   '''\.spec\.(ts|js)$''',
   '''\.github/workflows/.*''',
   '''docs/.*''',
-  '''\.env\.example$'''
+  '''\.env\.example$''',
+  '''(\.next|\.turbo|node_modules|dist)/.*'''
+]
+regexes = [
+  '''-----BEGIN PRIVATE KEY-----''',
+  '''-----END PRIVATE KEY-----'''
 ]
