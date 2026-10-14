@@ -61,12 +61,51 @@ export const serverEnvSchema = z
       .optional(),
   })
   .superRefine((data, ctx) => {
-    // Production Invariants
+    // Helper to detect common insecure placeholder values
+    const isPlaceholder = (val?: string) => {
+      if (!val) return false;
+      const lower = val.toLowerCase();
+      return (
+        lower.includes('replace_with') ||
+        lower.includes('dummy') ||
+        lower.includes('placeholder') ||
+        lower.includes('your-project') ||
+        lower.includes('example.com')
+      );
+    };
+
+    // Firebase PEM structure check
+    if (
+      !data.FIREBASE_PRIVATE_KEY.includes('-----BEGIN PRIVATE KEY-----') ||
+      !data.FIREBASE_PRIVATE_KEY.includes('-----END PRIVATE KEY-----')
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'FIREBASE_PRIVATE_KEY must contain valid PEM headers (-----BEGIN PRIVATE KEY----- / -----END PRIVATE KEY-----)',
+        path: ['FIREBASE_PRIVATE_KEY'],
+      });
+    }
+
+    // Production Hardened Invariants
     if (data.APP_ENV === 'production') {
+      if (!data.PUBLIC_APP_URL.startsWith('https://')) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'PUBLIC_APP_URL must use https:// in production',
+          path: ['PUBLIC_APP_URL'],
+        });
+      }
       if (data.MONGODB_URI.includes('localhost') || data.MONGODB_URI.includes('127.0.0.1')) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'MONGODB_URI cannot point to localhost in production',
+          path: ['MONGODB_URI'],
+        });
+      }
+      if (isPlaceholder(data.MONGODB_URI)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'MONGODB_URI cannot contain placeholder values in production',
           path: ['MONGODB_URI'],
         });
       }
@@ -82,6 +121,35 @@ export const serverEnvSchema = z
           code: z.ZodIssueCode.custom,
           message: 'INTEGRATION_ENCRYPTION_KEY is required in production for OAuth token encryption',
           path: ['INTEGRATION_ENCRYPTION_KEY'],
+        });
+      } else if (isPlaceholder(data.INTEGRATION_ENCRYPTION_KEY)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'INTEGRATION_ENCRYPTION_KEY cannot contain insecure placeholder values in production',
+          path: ['INTEGRATION_ENCRYPTION_KEY'],
+        });
+      }
+
+      // Rejection of placeholder credentials in production
+      if (isPlaceholder(data.SESSION_SECRET)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'SESSION_SECRET cannot contain placeholder values in production',
+          path: ['SESSION_SECRET'],
+        });
+      }
+      if (isPlaceholder(data.FIREBASE_PRIVATE_KEY)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'FIREBASE_PRIVATE_KEY cannot contain placeholder values in production',
+          path: ['FIREBASE_PRIVATE_KEY'],
+        });
+      }
+      if (isPlaceholder(data.FIREBASE_CLIENT_EMAIL)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'FIREBASE_CLIENT_EMAIL cannot contain placeholder values in production',
+          path: ['FIREBASE_CLIENT_EMAIL'],
         });
       }
     }
@@ -146,6 +214,10 @@ export function formatEnvErrors(error: z.ZodError): string[] {
 export function validateServerEnv(
   rawEnv: Record<string, unknown> = process.env
 ): ServerEnv {
+  if (typeof window !== 'undefined') {
+    throw new Error('FATAL: validateServerEnv called in client/browser context. Server secrets must never be exposed to the browser.');
+  }
+
   const result = serverEnvSchema.safeParse(rawEnv);
 
   if (!result.success) {

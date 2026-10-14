@@ -1,9 +1,12 @@
 /**
  * Part-time Coder - Supervised Background Worker Entry Point
  */
-import { APP_CONFIG, PORTS } from '@ptc/config';
+import { APP_CONFIG, PORTS, validateServerEnv } from '@ptc/config';
 
 export async function startWorker() {
+  // Enforce server environment validation on worker startup
+  validateServerEnv();
+
   const instanceId = `worker-${process.pid}-${Date.now()}`;
   console.log(`[${new Date().toISOString()}] Starting ${APP_CONFIG.name} worker [${instanceId}]...`);
 

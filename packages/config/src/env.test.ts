@@ -191,4 +191,74 @@ describe('Environment Configuration Validation (IMP-00-04)', () => {
       }
     });
   });
+
+  describe('Production Security Hardening & Placeholder Rejection', () => {
+    it('rejects placeholder SESSION_SECRET in production', () => {
+      const badEnv = {
+        ...validProdEnv,
+        SESSION_SECRET: 'replace_with_a_super_secret_key_32_characters_long',
+      };
+      expect(() => validateServerEnv(badEnv)).toThrowError(/SESSION_SECRET/);
+    });
+
+    it('rejects placeholder FIREBASE_PRIVATE_KEY in production', () => {
+      const badEnv = {
+        ...validProdEnv,
+        FIREBASE_PRIVATE_KEY: '-----BEGIN PRIVATE KEY-----\\nplaceholder_key\\n-----END PRIVATE KEY-----',
+      };
+      expect(() => validateServerEnv(badEnv)).toThrowError(/FIREBASE_PRIVATE_KEY/);
+    });
+
+    it('rejects placeholder FIREBASE_CLIENT_EMAIL in production', () => {
+      const badEnv = {
+        ...validProdEnv,
+        FIREBASE_CLIENT_EMAIL: 'user@example.com',
+      };
+      expect(() => validateServerEnv(badEnv)).toThrowError(/FIREBASE_CLIENT_EMAIL/);
+    });
+
+    it('rejects placeholder INTEGRATION_ENCRYPTION_KEY in production', () => {
+      const badEnv = {
+        ...validProdEnv,
+        INTEGRATION_ENCRYPTION_KEY: 'dummy_encryption_key_with_over_32_characters_total',
+      };
+      expect(() => validateServerEnv(badEnv)).toThrowError(/INTEGRATION_ENCRYPTION_KEY/);
+    });
+
+    it('rejects placeholder MONGODB_URI in production', () => {
+      const badEnv = {
+        ...validProdEnv,
+        MONGODB_URI: 'mongodb+srv://replace_with_user:pass@cluster.mongodb.net/ptc',
+      };
+      expect(() => validateServerEnv(badEnv)).toThrowError(/MONGODB_URI/);
+    });
+
+    it('rejects FIREBASE_PRIVATE_KEY without valid PEM headers', () => {
+      const badEnv = {
+        ...validLocalEnv,
+        FIREBASE_PRIVATE_KEY: 'just-some-random-raw-private-key-string-without-headers',
+      };
+      expect(() => validateServerEnv(badEnv)).toThrowError(/FIREBASE_PRIVATE_KEY/);
+    });
+
+    it('rejects non-HTTPS PUBLIC_APP_URL in production', () => {
+      const badEnv = {
+        ...validProdEnv,
+        PUBLIC_APP_URL: 'http://parttimecoder.com',
+      };
+      expect(() => validateServerEnv(badEnv)).toThrowError(/PUBLIC_APP_URL/);
+    });
+
+    it('throws error if validateServerEnv is invoked in browser context', () => {
+      // Simulate browser window global
+      (globalThis as unknown as { window: unknown }).window = {};
+      try {
+        expect(() => validateServerEnv(validLocalEnv)).toThrowError(
+          /validateServerEnv called in client\/browser context/
+        );
+      } finally {
+        delete (globalThis as unknown as { window?: unknown }).window;
+      }
+    });
+  });
 });
