@@ -7,7 +7,7 @@ status: proposed
 owner_decision: pending
 decision_date: null
 approver: null
-reason: "Establish the infrastructure hosting architecture, multi-environment lifecycle, typed configuration management, and deployment separation between the web platform and background worker in compliance with commercial-use terms."
+reason: "Establish the infrastructure hosting architecture, multi-environment lifecycle, typed configuration management, and deployment separation between the web platform and background worker in compliance with commercial-use terms and a free-tier-first cost discipline."
 source_sections:
   - "docs/PRD.md: Section 14 (Operational Requirements & Non-Functional)"
   - "docs/TRD.md: Section 7 (Deployment, Environments, and Infrastructure Architecture)"
@@ -25,12 +25,12 @@ affected_routes_apis_models:
   - "apps/web/**"
   - "apps/worker/**"
 options_and_tradeoffs:
-  - "Option A (Selected): Commercial-compliant PaaS/VPS hosting (e.g., Vercel Pro or Railway/Render for web, persistent Node container for worker, MongoDB Atlas, Cloudinary) across isolated local, staging, and production environments."
-  - "Option B: Pure free-tier hosting on non-commercial personal accounts (e.g., Vercel Hobby), violating platform terms for commercial client services."
-  - "Option C: Self-managed Kubernetes / multi-cloud infrastructure."
-security_privacy_finance_impact: "Guarantees production data isolation; staging environment utilizes anonymized fixtures; typed startup validation prevents silent server boots with missing encryption keys or exposed credentials."
-provider_cost_or_approval_impact: "Establishes a predictable, Owner-capped operational budget (~$25–$60/month) while maintaining legal compliance with commercial terms of service."
-migration_and_rollback: "Standard Dockerfile and Node runtime compatibility allows migrating between hosting vendors (Vercel, Render, Railway, DigitalOcean, AWS ECS) without codebase alterations."
+  - "Option A (Selected Principle): Free-tier-first strategy across local and staging; commercial-compliant, license-adherent deployment architecture for production with independent web and worker processes; actual provider selection and budget ceiling evaluated and approved by Owner under IMP-00-07."
+  - "Option B: Pure non-commercial personal free tiers (e.g. Vercel Hobby) used for production commercial services (violates provider Terms of Service)."
+  - "Option C: Complex container orchestration (Kubernetes) or multi-cloud infrastructure."
+security_privacy_finance_impact: "Guarantees production data isolation; staging environment uses disposable/anonymized fixtures; typed startup validation prevents silent server boots with missing secrets; protects against runaway infrastructure expenses through Owner checkpoints."
+provider_cost_or_approval_impact: "Preserves free-tier-first strategy for local and staging; requires explicit Owner approval before any paid hosting, database upgrade, or social API commitment is incurred."
+migration_and_rollback: "Standard Dockerfile and Node runtime compatibility allows migrating between hosting candidates (e.g. Vercel, Render, Railway, DigitalOcean, VPS) without codebase alterations."
 updated_acceptance_tests:
   - IMP-AT-011
   - IMP-AT-012
@@ -40,95 +40,96 @@ updated_acceptance_tests:
 
 ## 1. Context and Problem Statement
 
-Part-time Coder is a commercial enterprise offering paid client software services and proprietary products.
-
-Key operational obligations:
-1. **Commercial Terms of Service:** Hobby/personal free tiers on several platforms (such as Vercel Hobby) strictly prohibit commercial or client agency use. The production deployment must run on plans that legally authorize commercial activity.
-2. **Persistent Worker Requirement:** The background worker (`apps/worker`) requires a persistent, long-running process with reliable event loop execution, graceful shutdown handling, and continuous network connectivity, which standard serverless edge functions cannot provide.
-3. **Multi-Environment Isolation:** Development, staging, and production environments must be completely decoupled in database storage, API credentials, and third-party webhook targets.
-4. **Configuration Safety:** Misconfigured or missing environment variables must fail closed at server boot before serving traffic.
+Part-time Coder requires a deployment and environment architecture that supports:
+1. **Free-Tier-First Strategy:** Development, testing, and staging must maximize lawful free tiers (local emulators, MongoDB Atlas M0, Firebase free tier, Cloudinary free tier) to minimize burn rate.
+2. **Commercial Compliance:** Commercial production deployments must respect provider licensing and service terms (e.g. personal hobby plans that forbid commercial client services must not be assumed for production).
+3. **Persistent Worker Independence:** The background worker (`apps/worker`) requires a persistent runtime with reliable event loop execution, durable job lease handling, and continuous network connectivity, deploying independently of the web frontend (`apps/web`).
+4. **Owner-Gated Financial Commitments:** No paid hosting, database tier upgrades, worker hosting subscriptions, or paid API plans can be committed without explicit Owner approval.
 
 ---
 
 ## 2. Applicable PRD Requirement IDs
 
-- **PTC-OPS-001:** Production infrastructure legally and technically suitable for commercial operations.
-- **PTC-OPS-002:** Environment tiering: `local`, `staging`, `production` with complete database and credential separation.
-- **PTC-OPS-003:** Typed environment variable validation on application startup; zero runtime fallback to insecure defaults in production.
+- **PTC-OPS-001:** Production infrastructure legally and technically compliant with commercial operations and provider terms.
+- **PTC-OPS-002:** Strict environment isolation across `local`, `staging`, and `production` tiers.
+- **PTC-OPS-003:** Typed environment variable validation on startup; process fails closed on missing required configurations.
 - **PTC-NFR-015:** Cost-effective deployment architecture with documented budget caps and operational ownership.
 
 ---
 
 ## 3. Technical and Business Constraints
 
-- Production environment MUST permit commercial use under provider terms.
-- Low-cost development resources are encouraged for local/staging, but production hosting must not rely on fabricated perpetual-free assumptions.
-- Secrets (`FIREBASE_SERVICE_ACCOUNT_KEY`, `MONGODB_URI`, `SESSION_SECRET`, `SOCIAL_CLIENT_SECRETS`) MUST NEVER be committed to Git.
-- Next.js web application and Node worker process deploy as independent units so web redeploys do not interrupt active background jobs.
-- Automated health check endpoints (`/api/v1/health` for web, internal heartbeat for worker) required.
+- Free-tier-first remains the primary cost discipline across development and staging.
+- Production hosting must comply with provider licensing and commercial terms; no fabricated perpetual-free or non-compliant personal tier assumptions.
+- No fixed production budget ceiling is approved at this stage; formal pricing, provider comparison, and cost caps will be evaluated and submitted for Owner sign-off under `IMP-00-07`.
+- No paid production provider is selected or contracted at this stage.
+- Independent deployment capability for `apps/web` (Next.js) and `apps/worker` (Node.js) must be preserved.
+- Zero credentials or secrets committed to source control; configuration validated via Zod at startup.
 
 ---
 
 ## 4. Alternatives Considered
 
-1. **Option A (Selected): PaaS / Container Deployment with Commercial Compliance**
-   - Web App (`apps/web`): Deployed on Vercel Pro ($20/mo) or Render/Railway Web Service ($7–$15/mo) with commercial licensing.
-   - Worker (`apps/worker`): Deployed on a persistent container (Railway, Render, or low-cost VPS/Fly.io at $5–$10/mo).
-   - Database: MongoDB Atlas (M0 for local/staging test fixtures; M10 dedicated cluster for production).
-   - Storage: Cloudinary or AWS S3 for media assets.
+1. **Option A (Selected Principle): Free-Tier-First with Commercial Compliance & Owner Approval Gate**
+   - Local/Staging: Maximize lawful free tiers ($0/month).
+   - Production: Commercial-compliant architecture with separate web and worker execution units.
+   - Provider Selection & Budget: Candidate options (Vercel, Railway, Render, DigitalOcean, Fly.io, Atlas) to be evaluated and submitted for Owner review under `IMP-00-07`. No vendor lock-in or premature financial commitment.
 
-2. **Option B: Non-Commercial Free-Tier Stacking (Vercel Hobby + Free Cron)**
-   - Violates Vercel's Terms of Service for commercial client agency revenue.
-   - Serverless timeout limits break long video uploads and background batch jobs. High legal and operational risk.
+2. **Option B: Non-Commercial Free-Tier Stacking for Production (Vercel Hobby + Ephemeral Crons)**
+   - Breaches commercial terms of service; serverless timeout constraints break durable queue processing and long video uploads.
 
-3. **Option C: Custom Kubernetes Cluster (EKS/GKE)**
-   - High complexity, excessive baseline cost ($70–$150/month minimum), and heavy DevOps maintenance burden unsuitable for a lean team.
+3. **Option C: Premature Enterprise Kubernetes / Multi-Cloud Setup**
+   - High initial baseline infrastructure costs and unnecessary DevOps maintenance burden.
 
 ---
 
 ## 5. Selected Architecture
 
-We select **Option A: Commercial-Compliant PaaS/Container Deployment**.
+We select **Option A: Free-Tier-First with Commercial Compliance, Deployment Separation, and Owner Approval Checkpoints**.
 
-### Deployment Topology
+### Deployment Separation
 
 ```mermaid
 flowchart LR
-    subgraph Staging ["Staging Environment"]
+    subgraph Staging ["Staging Environment (Free / Minimal Tier)"]
         WebStaging["Next.js Web (Staging)"]
         WorkerStaging["Node Worker (Staging)"]
-        AtlasStaging[(MongoDB Atlas Staging)]
+        AtlasStaging[(MongoDB Atlas Staging M0)]
         WebStaging --> AtlasStaging
         WorkerStaging --> AtlasStaging
     end
 
-    subgraph Production ["Production Environment (Commercial)"]
+    subgraph Production ["Production Environment (Commercial-Compliant)"]
         WebProd["Next.js Web (Production)"]
         WorkerProd["Persistent Node Worker (Production)"]
-        AtlasProd[(MongoDB Atlas M10 Prod)]
-        CloudinaryProd["Cloudinary Media Vault"]
+        AtlasProd[(MongoDB Atlas Prod)]
+        MediaProd["Media Vault (Cloudinary / Storage)"]
         
         WebProd --> AtlasProd
         WorkerProd --> AtlasProd
-        WebProd --> CloudinaryProd
-        WorkerProd --> CloudinaryProd
+        WebProd --> MediaProd
+        WorkerProd --> MediaProd
     end
 ```
 
-### Environment Tier Matrix
+### Environment Tier Matrix & Cost Separation
 
 | Dimension | Local (`local`) | Staging (`staging`) | Production (`production`) |
 |---|---|---|---|
-| Web Host | Local Node (`localhost:3000`) | Preview / Staging PaaS | Commercial PaaS / VPS |
-| Worker Host | Local Node (`pnpm --filter worker dev`) | Staging container | Persistent Container (PM2 / Docker) |
-| Database | Disposable local/Atlas free tier | Dedicated staging Atlas cluster | MongoDB Atlas M10 (Automated daily backup) |
-| Identity | Firebase Emulator or dev project | Staging Firebase project | Production Firebase project with MFA |
-| Social APIs | Sandbox / Mock adapters | Test accounts / Sandbox | Approved provider developer apps |
-| Media Storage | Local filesystem / Mock | Staging Cloudinary bucket | Production Cloudinary bucket |
+| **Primary Strategy** | Free tier / local emulation | Free / preview sandbox | Commercial-compliant; Owner-approved |
+| **Estimated Cost** | **$0 / month** | **$0 / month** (or nominal test credits) | **To be finalized under IMP-00-07** |
+| **Web Runtime** | Local Node (`localhost:3000`) | Free/preview PaaS deployment | Commercial PaaS / Container (Independent unit) |
+| **Worker Runtime** | Local Node process (`pnpm dev:worker`) | Local or free preview container | Persistent container / process (Independent unit) |
+| **Database** | Disposable local or Atlas M0 free tier | Dedicated staging Atlas M0 tier | MongoDB Atlas (Tier subject to Owner approval) |
+| **Identity** | Firebase Local Emulator / Dev project | Staging Firebase project (Free tier) | Production Firebase project (Free up to 50k MAU) |
+| **Media Storage** | Local filesystem / Mock storage | Staging Cloudinary bucket (Free tier) | Production Cloudinary bucket (Free tier first) |
+| **Social APIs** | Mock adapters / local sandbox | Developer sandbox / test accounts | Approved provider developer apps (Owner approved) |
 
-### Startup Environment Validation Contract
+---
 
-A centralized config validator (`packages/config/src/env.ts`) runs before any application code executes:
+## 6. Startup Environment Validation Contract
+
+A centralized config validator (`packages/config/src/env.ts`) parses and validates all required environment variables using Zod before any application code executes:
 
 ```typescript
 import { z } from 'zod';
@@ -148,73 +149,58 @@ const envSchema = z.object({
 
 export const env = envSchema.parse(process.env);
 ```
-If any variable is missing or invalid, the process terminates immediately with an explicit error output pointing to the missing configuration name (without logging secret values).
+
+If any required variable is absent or invalid, the process terminates immediately with an explicit log identifying the missing variable name without leaking secrets.
 
 ---
 
-## 6. Justification and Trade-offs
+## 7. Owner Financial Checkpoints & Approval Gates
 
-### Advantages
-- **Legal & Operational Safety:** Complies with provider commercial terms; guarantees reliable worker execution.
-- **Fail-Closed Reliability:** Typed startup validation eliminates elusive runtime `undefined` configuration crashes in production.
-- **Cost Predictability:** Total baseline production hosting cost is capped at $25–$60/month, fulfilling the Owner budget constraints.
+The following financial and provider commitments **MUST NOT** be incurred autonomously by AI agents or engineering staff. Each requires an explicit Owner review and documented decision:
 
-### Trade-offs
-- Small monthly hosting expense compared to unsupported free-tier tricks, but necessary for commercial compliance and business continuity.
+1. **Paid Web Hosting:** Selection of commercial production web hosting provider and tier.
+2. **Persistent Worker Hosting:** Selection of production container/VPS hosting for `apps/worker`.
+3. **Database Tier Upgrades:** Upgrading from MongoDB Atlas free M0 tier to dedicated paid tiers (M2/M5/M10).
+4. **Media Storage Upgrades:** Moving beyond Cloudinary's free tier.
+5. **Paid Social Developer Accounts:** Any fee associated with third-party social API access (e.g. X API paid tiers).
+6. **Domain & DNS Purchases:** Production domain registration and DNS service expenses.
 
----
-
-## 7. Security, Performance, and Operational Implications
-
-- **Security:** Zero cross-environment data leakage. Staging never uses production customer data. Secrets injected via environment vaults at deploy time.
-- **Performance:** CDN edge caching for public marketing assets; sub-second dynamic SSR for dashboard shells.
-- **Operations:** Independent redeployment of web and worker. Zero downtime rollbacks supported on PaaS.
+*All hosting options, feature limits, and actual pricing proposals will be comprehensively evaluated and presented to the Owner under task `IMP-00-07`.*
 
 ---
 
-## 8. Cost Implications
+## 8. Migration or Future Scalability Considerations
 
-- **Baseline Monthly Production Budget (Proposed):**
-  - Web Hosting (PaaS Commercial): ~$15–$20/mo
-  - Worker Container: ~$5–$10/mo
-  - MongoDB Atlas (M10): ~$25–$30/mo (or M0/M2 during initial pilot)
-  - Cloudinary Media: $0 (Free tier covers 25GB managed assets)
-  - Total proposed operating ceiling: **$45–$60/month**.
+Both `apps/web` and `apps/worker` will include standard multi-stage `Dockerfile` definitions. By building against standard container and Node.js runtime interfaces, the application can run on any PaaS (Vercel, Render, Railway), bare container host (Fly.io, Cloud Run), or low-cost VPS (Hetzner, DigitalOcean) without code refactoring.
 
 ---
 
-## 9. Migration or Future Scalability Considerations
+## 9. Rejected Alternatives and Reasons
 
-Both `apps/web` and `apps/worker` include standard `Dockerfile` definitions. If hosting costs on PaaS scale up as traffic grows, the entire system can migrate seamlessly to a dedicated VPS (e.g. Hetzner, DigitalOcean) running Docker Compose or Dokku without code modifications.
-
----
-
-## 10. Rejected Alternatives and Reasons
-
-- **Non-Commercial Free Tier (Option B) Rejected:** Breaches provider contracts, lacks SLAs, and risks account termination when monetized services launch.
-- **Self-Managed Kubernetes (Option C) Rejected:** Excessive operational overhead and infrastructure bills with zero return for an MVP company platform.
+- **Non-Commercial Free Tier for Production (Option B) Rejected:** Violates platform terms of service for commercial client services; presents unacceptable legal and operational discontinuity risks.
+- **Premature Kubernetes (Option C) Rejected:** Excessive operational overhead and baseline infrastructure expense with zero return for an MVP platform.
 
 ---
 
-## 11. Risks and Mitigations
+## 10. Risks and Mitigations
 
 | Risk | Mitigation |
 |---|---|
-| Accidental commit of `.env` | Strict `.gitignore`, pre-commit hooks, and CI secret scanning (TruffleHog / GitGuardian pattern). |
-| Hosting bill spikes from runaway loops | Set hard billing alerts and spending caps in provider dashboards. |
-| Production database corruption | Automated point-in-time recovery (PITR) and daily snapshots in MongoDB Atlas. |
+| Accidental commit of `.env` secrets | Enforce `.gitignore`, pre-commit secret scans, and CI secret detection. |
+| Unexpected hosting billing charges | Hard billing alerts, spending limits, and mandatory Owner approval checkpoints. |
+| Production database data loss | Automated daily snapshots and point-in-time recovery (PITR) in MongoDB Atlas. |
 
 ---
 
-## 12. Verification Requirements
+## 11. Verification Requirements
 
-- Typed environment schema unit tests (`IMP-AT-011`): Missing variable causes process exit; valid variables pass schema.
-- Health check route test (`IMP-AT-012`): `/api/v1/health` returns status, database connectivity, and timestamp.
-- Verified absence of secrets in Git repository history.
+- Typed environment schema unit tests (`IMP-AT-011`): Missing variable triggers process exit; valid variables pass schema cleanly.
+- Health check route test (`IMP-AT-012`): `/api/v1/health` verifies database connectivity and process uptime.
+- Verification that local and staging environments run completely on free tiers.
 
 ---
 
-## 13. Decision Owner and Review Status
+## 12. Decision Owner and Review Status
 
 - **Proposed by:** AI Development Agent (Antigravity)
 - **Reviewer:** Part-time Coder Owner / Tech Lead
