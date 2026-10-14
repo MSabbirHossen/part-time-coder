@@ -43,8 +43,8 @@
 | `IMP-00-05` | PTC-OPS-001, PTC-NFR-011 | GitHub Actions CI workflows | `verified` | [Run 38652937037](https://github.com/MSabbirHossen/part-time-coder/actions/runs/38652937037) (5/5 jobs passed: Quality, Unit, DB Integration 12/12, Build, Security; REMOTE_CI_STATUS: VERIFIED) | `59c4119` |
 | `IMP-00-06` | PTC-DATA-001, PTC-DATA-002 | Disposable DB test fixtures | `verified` | [packages/database/src/database.integration.test.ts](file:///f:/Code%20Practice/AI-Projects/part-time-coder/packages/database/src/database.integration.test.ts) (12 integration tests: replica set, transactions, compound unique indexes, isolation) | `357ed4d` |
 | `IMP-00-07` | PTC-OPS-001, PTC-NFR-015 | Commercial hosting assessment | `verified` | [docs/HOSTING_FEASIBILITY.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/HOSTING_FEASIBILITY.md) (10 dimensions, verified pricing, Render preferred, Hetzner fallback) | `bbfe357` |
-| `IMP-00-08` | PTC-GOV-004, PTC-GOV-005 | Execution registry & test matrix | `verified` | [docs/PHASE_STATUS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PHASE_STATUS.md), [docs/TEST_MATRIX.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/TEST_MATRIX.md), [docs/OPERATIONS_DECISIONS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/OPERATIONS_DECISIONS.md) | pending commit |
-| `IMP-00-09` | PTC-INT-001–005 | Identity & provider register | `not_started` | — | — |
+| `IMP-00-08` | PTC-GOV-004, PTC-GOV-005 | Execution registry & test matrix | `verified` | [docs/PHASE_STATUS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PHASE_STATUS.md), [docs/TEST_MATRIX.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/TEST_MATRIX.md), [docs/OPERATIONS_DECISIONS.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/OPERATIONS_DECISIONS.md) | `6b6296f` |
+| `IMP-00-09` | PTC-INT-001–005 | Identity & provider register | `verified` | [docs/PROVIDER_REGISTRY.md](file:///f:/Code%20Practice/AI-Projects/part-time-coder/docs/PROVIDER_REGISTRY.md) (10 providers: Firebase, Atlas, Cloudinary, Resend, 6 social targets) | pending commit |
 | `IMP-00-10` | PTC-SEC-001–011 | Security baseline & threat model | `not_started` | — | — |
 
 ---
@@ -84,8 +84,17 @@ requirement_ids:
   - PTC-IAM-008
   - PTC-IAM-009
   - PTC-IAM-010
+  - PTC-SOC-001
+  - PTC-SOC-002
+  - PTC-SOC-003
   - PTC-SOC-004
   - PTC-SOC-005
+  - PTC-SOC-006
+  - PTC-INT-001
+  - PTC-INT-002
+  - PTC-INT-003
+  - PTC-INT-004
+  - PTC-INT-005
 tickets:
   - IMP-00-01
   - IMP-00-02
@@ -95,6 +104,7 @@ tickets:
   - IMP-00-06
   - IMP-00-07
   - IMP-00-08
+  - IMP-00-09
 changes:
   commits:
     - f9e9680 (IMP-00-01)
@@ -114,6 +124,7 @@ changes:
     - fcdc6fa (IMP-00-07 commercial hosting assessment)
     - bbfe357 (docs: reconcile hosting assessment with verified provider limits)
     - 59c4119 (ci: configure Gitleaks allowlist & config path; REMOTE_CI_STATUS: VERIFIED)
+    - 6b6296f (docs: establish master evidence registry and operations decisions)
   pull_requests: []
   migrations: []
 checks:
